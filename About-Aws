@@ -1,0 +1,25 @@
+AWS-I am- Identity access & management.
+AWS-i am is the backbone of security in AWS
+controls who can access , what they can co.
+IAM is free service.
+
+Core components of IAM:
+IAM has 4 main components :
+1.Users
+2.Groups.
+3.Roles.
+4.Policies.
+        1.AWS managed policy.
+        2.Customer-managed policy.
+        3.Inline policy.
+        4.Resource-based policy.
+        5.Permission boundaries (Guardrail)
+        6.Services control policies (AWS Organization)
+
+Evolution of policies and how user access resources.
+
+1.Identity- > Policy attached - > Evolution - > AWS API CALL
+
+IAM -USER -> AWS-managed-policy -> Deny/Allowed - > Allowed/blocked
+
+IAM-GROUP ->

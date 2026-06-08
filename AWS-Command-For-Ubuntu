@@ -1,0 +1,23 @@
+AWS Testing stress for server EC2
+
+3 Terminal-
+1 App run
+2  command : htop
+3  command : ab test : sudo apt install apache2-utils -y
+
+To increase limit:
+command: ulimit 65535
+
+
+From UI:
+command: sudo apt install cockpit -y
+command: sudo systmctl start cockpit
+
+Browser: https: Your ec2 IP
+
+SG PORT : 9090
+
+command: sudo passwd ubuntu
+
+username : ubuntu
+password : sudo passwd ubuntu

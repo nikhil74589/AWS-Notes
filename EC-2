@@ -1,0 +1,40 @@
+AWS
+1.What is EC2?
+1.EC2 stands for Elastic compute cloud.
+2.It is AWS virtual server which have computing power.
+3.You can launch a server in minutes ,use it, shutdown it without purchasing and
+managing physical hardware.
+4.Billing is based on usage (pay as you go)
+per hour/ per second depending on the instance type and OS.
+
+2.Application and OS Images (Amazon Machine Image-AMI)
+1.AMI is a pre -built template that contains OS, software and server configuration.
+2.Every EC2 instance is created from an AMI.
+
+3.You can create a custom AMI from a configured instance called a "Golden Image" used to launch a pre-configured
+EC2 instance.
+
+3.Instance type.
+[Family][Generation][Size]
+1.It determines the hardware profile vCPU, RAM and network.
+2.t3 = General purpose  (Development, Testing, Learning , low-traffic apps)
+3.c5 = Compute optimized (ML mode training , batch-processing)
+4.r5 = Memory optimized
+5.m5 = Balanced compute (production application)
+
+4.Purchasing option.
+1.On-Demand (DIs) : pay per hour/second . no upfront cost.
+2.Reserved instance (RIs) : Commit 1 or 3 year , up 72% cheaper ,best for steady
+3.Spot instances (SIs) : 90 % cheaper ,Use unused compute instance but AWS can terminate with 2- minutes notice.
+4.Dedicated host : A physical server dedicated to your account for software licences
+(HIPAA,PCI-DSS)
+
+5.Security Groups.
+1.Acts as a virtual firewall at the instance level.
+2.Controls inbound and outbound traffic using rules.
+3.Statefull : If inbound traffic is allow the response is automatically permitted
+(Rule only allow , cannot deny.)
+4.Multiple Security Groups (SG) are attached to one instance.
+
+6.ENI (Elastic Network Interface)
+7.ELASTIC IP (Static IP)

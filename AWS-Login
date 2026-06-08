@@ -1,0 +1,64 @@
+AWS authentication system login types.
+1 Aws console login.
+  a . Root user : email + captcha + password
+  b . IAM user
+  c . Activate MFA (Multiple factor authentication )
+
+2 Aws cli (command line interface ) login.
+   a . Access keys (Access key id + secret access key)
+
+3 Aws sdk ( Software development kit ) login.
+   a . Python ,Java , login programming language.
+
+4 Aws i am identity (aws sso ) login.
+   a .Centralized center for multiple AWS accounts
+   b . External identity provider.
+
+5 Federated access login . (Corporate)
+
+6 Temporary credentials (AWS STS).(security token service)
+
+7 Service-Based Access
+
+
+Networking for DevOps.
+
+Network : Network is an infrastructure of two or more devices connected together for
+data and resources sharing. like (router, switches, modem, NIC , (NETWORK INTERFACE CARD), chip, buses , cables)
+
+Networking: Networking is the process of designing ,implementing and managing communication between those connected devices.
+
+Protocol: A Protocol is a set of rules that defines how data is formatted , transmitted and received between devices/server.
+
+
+It follows format in order: 1.Syntax 2.Semantics 3.Timing.
+
+Protocol categories:
+1. Communication Protocols:
+It defines how data travels. TCP, UDP, ARP, FTP, SMTP
+
+2.Network Protocols:
+It defines encryption and authentication :TLS, SSL , SSH , IPsec
+
+3.Management Protocols:
+It defines network config and monitoring : DHCP ,DNS ,NTP ,SNMP
+
+Full Form:
+HTTPS = Hyper Text Transfer Protocol Secure
+TCP = Transmission Control Protocol
+UDP = User Datagram Protocol
+ARP = Address Resolution Protocol
+FTP = File Transfer Protocol
+SMTP = Simple Mail Transfer Protocol
+
+TLS = Transport Layer Security
+SSL = Secure Sockets Layer
+SSH = Secure Shell or (Secure Socket Shell)
+IPsec = Internet Protocol Security
+
+DHCP = Dynamic Host Configuration Protocol
+DNS = Domain Name System
+NTP = Network Time Protocol
+SNMP = Simple Network Management Protocol
+
+IP ADDRESS.
