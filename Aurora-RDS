@@ -1,0 +1,14 @@
+What is Aurora RDS?
+
+Amazon Relational Database Service (Amazon RDS) and Amazon Aurora are fully managed database services that simplify setup, operation, and scaling of relational databases in the cloud.
+
+what is the types of Aurora RDS engine?
+
+.Aurora (MySQL Compatible)
+.Aurora (PostgreSQL Compatible)
+.MySQL
+.PostgreSQL
+.MariaDB
+.Oracle
+.Microsoft SQL Server
+.IBM Db2
