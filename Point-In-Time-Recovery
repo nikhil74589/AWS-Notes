@@ -1,0 +1,2 @@
+Point-in-Time Recovery (PITR) is a critical data protection feature that allows administrators to restore a system or database to an exact moment in the past.
+It is primarily used to recover from data corruption, accidental deletions, or bad application rollouts by reverting data to a safe state before the error occurred.
