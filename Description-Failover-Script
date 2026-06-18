@@ -1,0 +1,516 @@
+FAILOVER DESCRIPTION OF SCRIPT
+
+### 1. Import Modules
+
+```python
+import pymysql, time
+from datetime import datetime
+```
+
+* `pymysql` → Connects to MySQL/Aurora database.
+* `time` → Used for delays and measuring downtime.
+* `datetime` → Used to print the current timestamp.
+
+---
+
+### 2. Database Configuration
+
+```python
+HOST =
+USER =
+PASS =
+```
+
+Fill these values with your database details:
+
+```python
+HOST = "your-db-endpoint.amazonaws.com"
+USER = "admin"
+PASS = "password123"
+```
+
+* `HOST` → Database endpoint.
+* `USER` → MySQL username.
+* `PASS` → MySQL password.
+
+---
+
+### 3. Initialize Variables
+
+```python
+down_start = 0
+prev_host = ""
+failover_log = []
+```
+
+#### `down_start`
+
+Stores the time when the database becomes unavailable.
+
+Example:
+
+```python
+down_start = time.time()
+```
+
+#### `prev_host`
+
+Stores the hostname of the last connected database server.
+
+Example:
+
+```python
+prev_host = "ip-10-0-1-100"
+```
+
+#### `failover_log`
+
+Stores history of failover events.
+
+Example:
+
+```python
+[
+ {'dt': 20.5, 'from': 'db1', 'to': 'db2', 'switched': True}
+]
+```
+
+---
+
+### 4. Print Header
+
+```python
+print("\n🔍 Failover Monitor ")
+print("=" * 55)
+```
+
+Output:
+
+```
+🔍 Failover Monitor
+=======================================================
+```
+
+---
+
+### 5. Infinite Monitoring Loop
+
+```python
+while True:
+```
+
+Runs forever until stopped with:
+
+```bash
+Ctrl + C
+```
+
+---
+
+### 6. Connect to Database
+
+```python
+cur = pymysql.connect(
+    host=HOST,
+    user=USER,
+    password=PASS,
+    connect_timeout=10
+).cursor()
+```
+
+Creates a connection and gets a cursor object.
+
+`connect_timeout=10`
+
+Waits up to 10 seconds before connection failure.
+
+---
+
+### 7. Get Current Hostname
+
+```python
+cur.execute("SELECT @@hostname, NOW()")
+host, now = cur.fetchone()
+```
+
+#### `@@hostname`
+
+Returns database server hostname.
+
+Example:
+
+```
+ip-10-0-1-100
+```
+
+#### `NOW()`
+
+Returns current database time.
+
+Example:
+
+```
+2026-06-18 11:20:15
+```
+
+Result:
+
+```python
+host = "ip-10-0-1-100"
+now = "2026-06-18 11:20:15"
+```
+
+---
+
+### 8. Check if Recovery Happened
+
+```python
+if down_start:
+```
+
+Means the database was previously down and is now back up.
+
+---
+
+### 9. Calculate Downtime
+
+```python
+dt = round(time.time() - down_start, 1)
+```
+
+Example:
+
+Database down at:
+
+```
+11:00:00
+```
+
+Recovered at:
+
+```
+11:00:25
+```
+
+Result:
+
+```python
+dt = 25.0
+```
+
+---
+
+### 10. Check Host Switch
+
+```python
+switched = host != prev_host
+```
+
+Example:
+
+Before:
+
+```python
+prev_host = "db1"
+```
+
+After:
+
+```python
+host = "db2"
+```
+
+Result:
+
+```python
+True
+```
+
+This indicates a failover occurred.
+
+---
+
+### 11. Save Failover Event
+
+```python
+failover_log.append({
+    'dt': dt,
+    'from': prev_host,
+    'to': host,
+    'switched': switched
+})
+```
+
+Example:
+
+```python
+{
+ 'dt': 25.0,
+ 'from': 'db1',
+ 'to': 'db2',
+ 'switched': True
+}
+```
+
+---
+
+### 12. Print Recovery Details
+
+```python
+print(f"\n{'='*55}")
+print(f"✅ RECOVERED!")
+```
+
+Output:
+
+```
+=======================================================
+✅ RECOVERED!
+```
+
+---
+
+### 13. Display Downtime
+
+```python
+print(f"Downtime : {int(dt//60)}m {int(dt%60)}s ({dt}s)")
+```
+
+Example:
+
+```
+Downtime : 0m 25s (25.0s)
+```
+
+---
+
+### 14. Show Source Host
+
+```python
+print(f"From : {prev_host}")
+```
+
+Example:
+
+```
+From : db1
+```
+
+---
+
+### 15. Show Destination Host
+
+```python
+print(f"To : {host}")
+```
+
+Example:
+
+```
+To : db2
+```
+
+---
+
+### 16. Display Failover Result
+
+```python
+print(
+ f"Result : {'⚡️ HOST SWITCHED!' if switched else '⚠️ Same server'}"
+)
+```
+
+Possible outputs:
+
+If failover happened:
+
+```
+⚡️ HOST SWITCHED!
+```
+
+If same server:
+
+```
+⚠️ Same server
+```
+
+---
+
+### 17. Print Failover Log Table
+
+```python
+for i in range(len(failover_log)):
+```
+
+Loops through all failover events.
+
+Example output:
+
+```
+#    Downtime   From      To        Switch
+------------------------------------------------
+1    25.0       db1       db2       ⚡️YES
+2    18.0       db2       db3       ⚡️YES
+```
+
+---
+
+### 18. Reset Downtime Flag
+
+```python
+down_start = 0
+```
+
+Indicates the database is healthy again.
+
+---
+
+### 19. Update Current Host
+
+```python
+prev_host = host
+```
+
+Stores the latest hostname for future comparison.
+
+---
+
+### 20. Print Success Status
+
+```python
+print(f"✅ {now} | {host}")
+```
+
+Example:
+
+```
+✅ 2026-06-18 11:20:15 | ip-10-0-1-100
+```
+
+This appears every 2 seconds when the database is healthy.
+
+---
+
+### 21. Exception Block
+
+```python
+except:
+```
+
+Runs when connection fails.
+
+Possible reasons:
+
+* Database stopped
+* Network issue
+* Aurora failover
+* Wrong credentials
+
+---
+
+### 22. First Failure Detection
+
+```python
+if not down_start:
+```
+
+Checks whether this is the first failed attempt.
+
+---
+
+### 23. Record Failure Time
+
+```python
+down_start = time.time()
+```
+
+Stores when the outage started.
+
+---
+
+### 24. Print DOWN Message
+
+```python
+print(
+ f"\n❌ DOWN! {datetime.now().strftime('%H:%M:%S')} | {prev_host}"
+)
+```
+
+Example:
+
+```
+❌ DOWN! 11:25:10 | db1
+```
+
+---
+
+### 25. Show Ongoing Downtime
+
+```python
+elapsed = round(time.time() - down_start, 1)
+```
+
+Calculates current outage duration.
+
+---
+
+### 26. Print Elapsed Time
+
+```python
+print(f"⏳ {int(elapsed//60)}m {int(elapsed%60)}s")
+```
+
+Example:
+
+```
+⏳ 0m 15s
+⏳ 0m 17s
+⏳ 0m 19s
+```
+
+---
+
+### 27. Wait 2 Seconds
+
+```python
+time.sleep(2)
+```
+
+Pauses before the next database check.
+
+---
+
+## Overall Workflow
+
+```text
+Start
+  ↓
+Connect to DB
+  ↓
+Get hostname
+  ↓
+DB Healthy?
+  ├─ Yes → Print hostname every 2 sec
+  │
+  └─ No
+       ↓
+     Record outage start
+       ↓
+     Keep checking
+       ↓
+     DB recovers?
+       ↓
+      Yes
+       ↓
+Calculate downtime
+       ↓
+Check hostname changed?
+       ↓
+Log failover event
+       ↓
+Print report
+       ↓
+Continue monitoring
+```
+
+This script is commonly used in AWS environments such as Amazon Aurora or Amazon RDS for MySQL to measure failover time and verify whether the database switched to a new instance after a failure.
