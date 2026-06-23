@@ -1,0 +1,38 @@
+Accessing S3 buckets/objects using EC2 I AM roles via custom policy.
+
+CREATE BUCKET
+CREATE CUSTOM POLICY IN I AM
+CREATE EC2 :
+            sudo apt update && sudo apt install -y curl unzip
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+            aws -- version
+            aws-sts get-caller-identity
+            attach iam role to the ec2 for security section in ec2 dashboard
+            aws s3 ls s3://bucket-name
+
+
+2.Accessing AWS resources/Services using AWS SDK (python with boto3) s3.
+
+aws --version
+aws sts get-caller-identity
+
+open vs code => asw sdk boto3
+pip install boto3
+
+
+3.s3notifiaction pipeline using serverless architecture (aws lambda and aws sns)
+
+#Architecture
+
+S3 BUCKET (UPLOAD EVENT / DELETE EVENT)
+-> Lambda function (Event message parse , python code)
+-> SNS TOPIC (publisher/Subscriber)
+
+STEP-1 CREATE S3 BUCKET
+STEP-2 CREATE SNS TOPIC 
+STEP-3 SUBSCRIBE EMAIL TO SNS TOPIC
+STEP-4 CREATE IAM ROLE FOR LAMBDA
+STEP-5 CREATE LAMBDA FUNCTION
+STEP-6 PASTE YOU SNS-ARN
