@@ -1,0 +1,27 @@
+ First time SSH with EC2
+   ls -la
+   df -h
+   lsblk
+   sudo mkfs -t ext4 /dev/nvme1n1
+   sudo mkdir /data
+   sudo mount /dev/nvme1n1 /data
+   df -h
+   ls -la
+   cd /data
+   ls
+   sudo vim demo.txt
+   ls
+   sudo chown ubuntu:ubuntu /data 
+   vim new.txt
+   history
+
+   AFTER CREATING FIRST TIME WE HAVE TO USE MINIMAL COMMAND
+
+   ls -la
+   df -h
+   lsblk
+   sudo mount /dev/nvme1n1 /data
+   df -h
+   ls -la
+   cd /data
+   ls
