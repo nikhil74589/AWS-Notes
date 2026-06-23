@@ -1,0 +1,92 @@
+1. Region - US.Ohio (us-east-2)
+2. NEW VPC - Vpc-for-efs
+3. Subnet 2 - public-efs-01, public-efs-02
+4. internet gateway (everything route-table, association).
+5. security group (80, 22)
+6. launch 2 EC2 - EFS-EC2-1, EFS-EC2-2
+7. EFS-EC2-1 -> sudo apt update
+             -> sudo vim app.py
+             -> sudo apt install python3-flask
+8. EFS-EC2-2 -> sudo apt update
+             -> sudo vim app.py
+             -> sudo apt install python3-flask
+9. sudo python3 app.py
+
+10. verify both ec2 serving your app.
+
+11. EFS (shared-uploads) -> go to network tab -> available -> default-sg
+go to default-sg of efs or you can choose your own sg and allow port 2049 with ec2 sg
+
+12. sudo apt update
+
+
+IN INSTANCE AFTER DOING SSH CONNECTION
+
+
+EFS (nfs) SIMULATE
+2-INSTANCE SAME REGION
+2-INSTANCE PYTHON AND FLASK
+VIM APP.PY
+python3 app.py
+
+sudo apt update
+sudo apt install -y nfs-common
+sudo apt install nfs-common-y
+EFS PROVISION
+PORT 2049 - EC2 GROUP
+nslookup fs-0b84a03b731530958.efs.us-east-2.amazonaws.com
+nc -zv 10.0.0.13 2049
+
+
+
+sudo mkdir -p /mnt/efs
+sudo mount -t nfs4 -o nfsvers=4.1 fs-0b84a03b731530958.efs.us-east-2.amazonaws.com:/ /mnt/efs
+
+df -h | grep efs
+
+sudo mkdir -p /mnt/efs/uploads
+
+sudo cp uploads/* /mnt/efs/uploads/
+
+ls /mnt/efs/uploads
+
+efs security group apna hona chahiye
+
+
+sudo vim /etc/fstab
+
+fs-0b84a03b731530958.efs.us-east-2.amazonaws.com:/ /mnt/efs nfs4 nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport,_netdev 0 0
+
+GUNICORN SYSTEM FILE
+
+sudo apt install python3-pip
+
+sudo pip3 install gunicorn --break-system-packages
+
+which gunicorn
+
+gunicorn --workers 3 --bind 0.0.0.0:8000 app:app
+
+sudo vim /etc/systemd/system/myapp.service
+
+[Unit]
+Description= Flask app via Gunicorn
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/
+ExecStart=/user/local/bin/gunicorn --workers 3 --bind 0.0.0.0:8000 app:app
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable myapp
+sudo systemctl start myapp
+sudo systemctl status myapp
+
