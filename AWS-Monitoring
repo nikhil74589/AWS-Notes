@@ -1,0 +1,64 @@
+Monitoring
+
+Monitoring is tracking the health , performance and activity of a system
+so problem can be detected then take action ideally before they cause damage.
+
+1.Infrastructure monitoring = Is the server alive ? are resources sufficient
+2.Application monitoring = Is app working correctly ? are there errors
+3.Log monitoring = What even happened on the system/app
+4.Security monitoring = Was there unauthorized/suspicious activity.
+
+Monitoring Tool Stack.
+1.Cloud Native Tool (AWS native : CloudWatch ,CloudTrail)
+2.Third party Tool/Open source (Prometheus , Grafana ,Datadog , new Relic)
+
+Concept Wise Monitoring.
+1.Push Based : The server send its own data to the monitoring system.
+2.Pull Based : The monitoring system goes to the server to fetch data .(scrap it)
+3.Real-time and batch/schedule/periodic monitoring.
+4.Black-box and white-box monitoring
+Black-box : Testing from outside , without looking internals. (Uptime , ping , Http-check)
+White-box : Looking at system internal metrics and logs . (CPU/Memory , application internal logs)
+5.Sythetic Monitoring : Bots system check
+6.Real User monitoring (RUM) : Real human user check everything's and collect data.
+
+
+METHOD-1 : Real-Time SSH Login alert Monitoring
+Security + Log monitoring -> Real Time -> Push-Based -> White-box
+
+Tools Required : Python Programming
+
+STEP-1 : Launch an instance in public subnet and SSH through PEM key.
+
+connect through SSH
+python3 --version
+sudo apt update
+sudo apt install python3-pip -y
+pip3 install python-dotenv --break-system-packages
+ls -la /var/log/auth.log (adm must in group)
+
+Create .env file
+
+SENDER_EMAIL=nikhilranjan2501@gmail.com
+SENDER_PASSWORD=#################
+
+METHOD-2 : Scheduled base SSH Summary alert Monitoring (cronjob , crontab).
+
+python3 --version
+sudo apt update
+sudo apt install python3-pip -y
+
+echo 'export PROMPT_COMMAND="history -a"' >> ~/.bashrc
+echo 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S"' >> ~/.bashrc
+source ~/.bashrc
+cat ~/.bash_history
+history | tail -4
+
+Cronjobs
+
+crontab -e
+crontab -l
+crontab -r # for permanent removal
+
+
+1 * * /2 * * * /usr/bin/python3 /home/ubuntu/command_summary.py >> /home/ubuntu/summary.log 2>&1
