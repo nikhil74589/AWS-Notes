@@ -62,3 +62,33 @@ crontab -r # for permanent removal
 
 
 1 * * /2 * * * /usr/bin/python3 /home/ubuntu/command_summary.py >> /home/ubuntu/summary.log 2>&1
+
+
+
+sudo vim /etc/systemd/system/ssh-monitor.service
+
+Script
+
+[Unit]
+Description = SSH LOGIN MONITORING SERVICE
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/ssh-monitor
+ExecStart=/usr/bin/python3 /home/ubuntu/ssh_monitor.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable ssh-monitor.service
+sudo systemctl start ssh-monitor.service
+sudo systemctl status ssh-monitor.service
+sudo systemctl stop ssh-monitor.service
+sudo journalctl -u ssh-monitor.service -f
+
